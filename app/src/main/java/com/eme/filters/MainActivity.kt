@@ -2,23 +2,27 @@ package com.eme.filters
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_main.*
+import com.eme.filters.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private val numbersList = listOf("one", "two", "three", "four")
     private val instanceList = listOf(null, 1, "two", 3.0, "four")
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initListeners()
     }
 
     private fun initListeners() {
+
         // Filtro por predicado
-        btFilterByPredicate.setOnClickListener {
+        binding.btFilterByPredicate.setOnClickListener {
             showResults(
                     numbersList,
                     numbersList.filter { it.length > 3 },
@@ -28,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
 
         // Filtro por índice
-        btFilterIndexed.setOnClickListener {
+        binding.btFilterIndexed.setOnClickListener {
             showResults(
                     numbersList,
                     numbersList.filterIndexed { index, s -> (index != 0) && (s.length < 5) },
@@ -37,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //filterNot()
-        btFilterNot.setOnClickListener {
+        binding.btFilterNot.setOnClickListener {
             showResults(
                     numbersList,
                     numbersList.filterNot { it.length <= 3 },
@@ -46,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //filterInstance()
-        btFilterInstance.setOnClickListener {
+        binding.btFilterInstance.setOnClickListener {
             showResults(
                     instanceList,
                     instanceList.filterIsInstance<String>(),
@@ -55,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //filterNotNull
-        btFilterNotNull.setOnClickListener {
+        binding.btFilterNotNull.setOnClickListener {
             showResults(
                     instanceList,
                     instanceList.filterNotNull(),
@@ -67,7 +71,7 @@ class MainActivity : AppCompatActivity() {
          ********************** Probando predicados *****************************
          ************************************************************************/
         // Any()
-        btAny.setOnClickListener {
+        binding.btAny.setOnClickListener {
             showResults(
                     numbersList,
                     numbersList.any { it.endsWith("e") },
@@ -76,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // None
-        btNone.setOnClickListener {
+        binding.btNone.setOnClickListener {
             showResults(
                     numbersList,
                     numbersList.none { it.endsWith("a") },
@@ -85,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // All
-        btAll.setOnClickListener {
+        binding.btAll.setOnClickListener {
             showResults(
                     numbersList,
                     numbersList.all { it.endsWith("e") },
@@ -95,8 +99,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showResults(inputList: List<Any?>, listResult: Any, message: String) {
-        input_list.text = "Entrada $inputList"
-        tvResultList.text = "Resultado: $listResult"
-        tvInputMessage.text = message
+        binding.inputList.text = "Entrada $inputList"
+        binding.tvResultList.text = "Resultado: $listResult"
+        binding.tvInputMessage.text = message
     }
+
 }
